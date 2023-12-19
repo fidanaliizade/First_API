@@ -57,11 +57,15 @@ namespace First_API.Controllers
         }
 
 
-        //[HttpDelete]
-        //public async Task<IActionResult> Delete(int id)
-        //{
-            
-        //}
-
+        [HttpDelete]
+        [Route("{id}")]
+        public IActionResult Delete(int id)
+        {
+            var colour = _context.Colors.Find(id);
+            if (colour == null) return StatusCode(StatusCodes.Status404NotFound);
+            _context.Colors.Remove(colour);
+            _context.SaveChanges();
+            return StatusCode(StatusCodes.Status200OK);
+        }
     }
 }

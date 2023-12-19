@@ -35,7 +35,7 @@ namespace First_API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(Car car)
+        public async Task<IActionResult> Create([FromForm]Car car)
         {
             await _context.Cars.AddAsync(car);  
             await _context.SaveChangesAsync();
