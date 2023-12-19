@@ -29,8 +29,39 @@ namespace First_API.Controllers
         [Route("{id}")]
         public async Task<IActionResult> Get(int id)
         {
+            if (id <= 0) return StatusCode(StatusCodes.Status400BadRequest);
             var colours = await _context.Colors.FirstOrDefaultAsync(c => c.Id == id);
+            if (id == null) return StatusCode(StatusCodes.Status404NotFound);
             return StatusCode(StatusCodes.Status200OK, colours);
         }
+
+
+        [HttpPost]
+        public async Task<IActionResult> Create(Colour colour)
+        {
+            _context.Colors.AddAsync(colour);
+            _context.SaveChangesAsync();
+            return StatusCode(StatusCodes.Status201Created,colour);
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> Update(int id, string name)
+        {
+            if(id<=0) return StatusCode(StatusCodes.Status400BadRequest);
+            var colours= await _context.Colors.FirstOrDefaultAsync(c=>c.Id == id);
+            if(id==null) return StatusCode(StatusCodes.Status404NotFound);
+
+            colours.Name= name;
+            await _context.SaveChangesAsync();
+            return StatusCode(StatusCodes.Status200OK,colours);
+        }
+
+
+        //[HttpDelete]
+        //public async Task<IActionResult> Delete(int id)
+        //{
+            
+        //}
+
     }
 }
